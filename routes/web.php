@@ -1,6 +1,10 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Livewire\ShowNotes;
+use App\Livewire\CreateNote;
+use App\Livewire\EditNote;
+use App\Livewire\FileUploader;
 
 Route::get('/', function () {
     return view('welcome');
@@ -15,3 +19,23 @@ Route::middleware([
         return view('dashboard');
     })->name('dashboard');
 });
+
+
+Route::get('/notes', ShowNotes::class)
+    ->middleware(['auth', 'verified'])
+    ->name('notes.index');
+
+
+Route::get('/notes/create', CreateNote::class)
+    ->middleware(['auth', 'verified'])
+    ->name('notes.create');
+
+Route::get('/notes/edit/{note}', EditNote::class)
+    ->middleware(['auth', 'verified'])
+    ->name('notes.edit');
+
+
+
+Route::get('/upload', FileUploader::class)
+    ->middleware(['auth', 'verified'])
+    ->name('upload.index');

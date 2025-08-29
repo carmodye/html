@@ -15,7 +15,8 @@
 				"ryannaddy.laravel-artisan",
 				"onecentlin.laravel5-snippets",
 				"onecentlin.laravel-blade",
-				"damms005.devdb"
+				"damms005.devdb",
+				"devsense.phptools-vscode"
 			],
 			"settings": {}
 		}

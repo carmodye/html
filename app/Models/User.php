@@ -10,6 +10,9 @@ use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Jetstream\HasTeams;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use App\Models\Note;
+
 
 class User extends Authenticatable
 {
@@ -66,4 +69,15 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+    public function notes(): HasMany
+    {
+        return $this->hasMany(Note::class);
+    }
+
+
+
+
+
+
+
 }

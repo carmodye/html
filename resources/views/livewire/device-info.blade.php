@@ -15,6 +15,15 @@
         </select>
     </div>
 
+    <!-- Loading Indicator -->
+   <div wire:loading class="absolute inset-0 flex justify-center items-center bg-gray-100 bg-opacity-75 z-10">
+    <svg class="animate-spin h-10 w-10 text-blue-800 mr-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
+    </svg>
+    <span class="text-blue-800 text-3xl font-medium">Loading devices...</span>
+</div>
+
     @if ($error)
         <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
             <span class="block sm:inline">{{ $error }}</span>

@@ -6,6 +6,8 @@ use Livewire\Component;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use App\Models\Client;
+use Illuminate\Support\Facades\Cache;
+
 
 class DeviceInfo extends Component
 {
@@ -39,6 +41,8 @@ class DeviceInfo extends Component
         }
     }
 
+
+
     public function fetchDevices()
     {
         $this->devices = [];
@@ -50,34 +54,32 @@ class DeviceInfo extends Component
         }
 
         try {
-            // Fetch devices for the selected client
-            $response = Http::timeout(10)->get(env('DEVICE_API_URL'), [
-                'client' => $this->client
-            ]);
+            $cacheKey = 'devices_' . $this->client;
+            $cacheTTL = now()->addMinutes(10);
 
-            // Log the raw response for debugging
-            Log::info('API Response', [
-                'url' => env('DEVICE_API_URL') . '?client=' . $this->client,
-                'status' => $response->status(),
-                'body' => $response->body()
-            ]);
-
-            if ($response->successful()) {
-                $data = $response->json();
-                $this->devices = is_array($data) ? $data : [];
-                if (empty($this->devices)) {
-                    $this->error = 'No devices found for client: ' . $this->client;
+            $this->devices = Cache::remember($cacheKey, $cacheTTL, function () {
+                $response = Http::timeout(10)->get(env('DEVICE_API_URL'), [
+                    'client' => $this->client
+                ]);
+                // Log::info('API Response', [
+                //     'url' => env('DEVICE_API_URL') . '?client=' . $this->client,
+                //     'status' => $response->status(),
+                //     'body' => $response->body()
+                // ]);
+                if ($response->successful()) {
+                    $data = $response->json();
+                    return is_array($data) ? $data : [];
                 }
-            } else {
-                $this->error = 'API request failed with status: ' . $response->status();
+                return [];
+            });
+
+            if (empty($this->devices)) {
+                $this->error = 'No devices found for client: ' . $this->client;
             }
         } catch (\Exception $e) {
             $this->error = 'Error fetching devices: ' . $e->getMessage();
             $this->devices = [];
-            Log::error('API Request Exception', [
-                'error' => $e->getMessage(),
-                'client' => $this->client
-            ]);
+            Log::error('API Request Exception', ['error' => $e->getMessage(), 'client' => $this->client]);
         }
     }
 

@@ -33,9 +33,3 @@ Route::get('/notes/create', CreateNote::class)
 Route::get('/notes/edit/{note}', EditNote::class)
     ->middleware(['auth', 'verified'])
     ->name('notes.edit');
-
-
-
-Route::get('/upload', FileUploader::class)
-    ->middleware(['auth', 'verified'])
-    ->name('upload.index');

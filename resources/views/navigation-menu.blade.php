@@ -18,9 +18,6 @@
                     <x-nav-link href="{{ route('notes.index') }}" :active="request()->routeIs('notes.index')">
                         {{ __('Notes') }}
                     </x-nav-link>
-                    <x-nav-link href="{{ route('upload.index') }}" :active="request()->routeIs('upload.index')">
-                        {{ __('Uploads') }}
-                    </x-nav-link>
                 </div>
             </div>
 

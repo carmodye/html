@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Livewire\ShowNotes;
 use App\Livewire\CreateNote;
 use App\Livewire\EditNote;
-use App\Livewire\FileUploader;
+use App\Livewire\DeviceInfo;
 
 Route::get('/', function () {
     return view('welcome');
@@ -33,3 +33,6 @@ Route::get('/notes/create', CreateNote::class)
 Route::get('/notes/edit/{note}', EditNote::class)
     ->middleware(['auth', 'verified'])
     ->name('notes.edit');
+
+
+Route::get('/device-info', DeviceInfo::class)->middleware(['auth'])->name('device-info');
